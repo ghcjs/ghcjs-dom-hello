@@ -22,7 +22,8 @@ source-repository head
     location: https://github.com/ghcjs/ghcjs-dom-hello
  
 executable ghcjs-dom-hello
-    build-depends: base >=4.2 && <5, ghcjs-dom >=0.0.7 && <0.2
+    build-depends: mtl >=2.1 && <2.3,
+                   base >=4.2 && <5, ghcjs-dom >=0.0.7 && <0.2
     main-is: Main.hs
     buildable: True
     hs-source-dirs: src
