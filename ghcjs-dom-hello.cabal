@@ -16,16 +16,15 @@ description: This is an implementation of the classic "Hello World" program usin
 category: Web
 author: Hamish Mackenzie
 data-dir: ""
- 
+
 source-repository head
     type: git
     location: https://github.com/ghcjs/ghcjs-dom-hello
- 
+
 executable ghcjs-dom-hello
     build-depends: mtl >=2.1 && <2.3,
-                   base >=4.2 && <5, ghcjs-dom >=0.0.7 && <0.2
+                   base >=4.2 && <5,
+                   ghcjs-dom >=0.2 && <0.3
     main-is: Main.hs
     buildable: True
     hs-source-dirs: src
- 
- 
