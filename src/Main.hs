@@ -2,17 +2,17 @@ module Main (
     main
 ) where
 
-import Control.Applicative ((<$>))
-import GHCJS.DOM
-       (enableInspector, webViewGetDomDocument, runWebGUI)
+import GHCJS.DOM (run, currentDocument)
 import GHCJS.DOM.Document (getBody, createElement, createTextNode, click)
 import GHCJS.DOM.Element (setInnerHTML)
 import GHCJS.DOM.Node (appendChild)
 import GHCJS.DOM.EventM (on, mouseClientXY)
+import Control.Monad.IO.Class (MonadIO(..))
+import Control.Monad (forever)
+import Control.Concurrent (threadDelay)
 
-main = runWebGUI $ \ webView -> do
-    enableInspector webView
-    Just doc <- webViewGetDomDocument webView
+main = run 3708 $ do
+    Just doc <- currentDocument
     Just body <- getBody doc
     setInnerHTML body (Just "<h1>Hello World</h1>")
     on doc click $ do
@@ -22,4 +22,5 @@ main = runWebGUI $ \ webView -> do
         appendChild newParagraph text
         appendChild body (Just newParagraph)
         return ()
+    liftIO . forever $ threadDelay 10000000
     return ()
