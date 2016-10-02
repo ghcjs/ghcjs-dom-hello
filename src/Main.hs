@@ -2,25 +2,42 @@ module Main (
     main
 ) where
 
-import GHCJS.DOM (run, currentDocument)
-import GHCJS.DOM.Document (getBody, createElement, createTextNode, click)
+import Control.Monad.IO.Class (MonadIO(..))
+import Control.Concurrent.MVar (takeMVar, putMVar, newEmptyMVar)
+
+import GHCJS.DOM (run, syncPoint, currentDocument)
+import GHCJS.DOM.Document (getBody, createElement, createTextNode)
 import GHCJS.DOM.Element (setInnerHTML)
 import GHCJS.DOM.Node (appendChild)
 import GHCJS.DOM.EventM (on, mouseClientXY)
-import Control.Monad.IO.Class (MonadIO(..))
-import Control.Monad (forever)
-import Control.Concurrent (threadDelay)
+import qualified GHCJS.DOM.Document as D (click)
+import qualified GHCJS.DOM.Element as E (click)
 
 main = run 3708 $ do
     Just doc <- currentDocument
     Just body <- getBody doc
-    setInnerHTML body (Just "<h1>Hello World</h1>")
-    on doc click $ do
+    setInnerHTML body (Just "<h1>Kia ora (Hi)</h1>")
+    on doc D.click $ do
         (x, y) <- mouseClientXY
         Just newParagraph <- createElement doc (Just "p")
         text <- createTextNode doc $ "Click " ++ show (x, y)
         appendChild newParagraph text
         appendChild body (Just newParagraph)
         return ()
-    liftIO . forever $ threadDelay 10000000
+
+    -- Make an exit button
+    exitMVar <- liftIO newEmptyMVar
+    Just exit <- createElement doc (Just "span")
+    text <- createTextNode doc "Click here to exit"
+    appendChild exit text
+    appendChild body (Just exit)
+    on exit E.click $ liftIO $ putMVar exitMVar ()
+
+    -- Force all all the lazy evaluation to be executed
+    syncPoint
+
+    -- In GHC compiled version the WebSocket connection will end when this
+    -- thread ends.  So we will wait until the user clicks exit.
+    liftIO $ takeMVar exitMVar
+    setInnerHTML body (Just "<h1>Ka kite ano (See you later)</h1>")
     return ()
