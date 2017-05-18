@@ -5,9 +5,10 @@ module HelloMain (
 import Control.Monad.IO.Class (MonadIO(..))
 import Control.Concurrent.MVar (takeMVar, putMVar, newEmptyMVar)
 
-import GHCJS.DOM (syncPoint, currentDocument)
+import GHCJS.DOM (syncPoint, currentDocumentUnchecked)
 import GHCJS.DOM.Types
-       (Element(..), HTMLParagraphElement(..), HTMLSpanElement(..), uncheckedCastTo, JSM)
+       (Element(..), HTMLParagraphElement(..),
+        HTMLSpanElement(..), uncheckedCastTo, JSM)
 import GHCJS.DOM.Document (getBodyUnsafe, createElement, createTextNode)
 import GHCJS.DOM.Element (setInnerHTML)
 import GHCJS.DOM.Node (appendChild)
@@ -16,7 +17,7 @@ import GHCJS.DOM.GlobalEventHandlers (click)
 
 helloMain :: JSM ()
 helloMain = do
-    Just doc <- currentDocument
+    doc <- currentDocumentUnchecked
     body <- getBodyUnsafe doc
     setInnerHTML body (Just "<h1>Kia ora (Hi)</h1>")
     _ <- on doc click $ do
@@ -35,7 +36,7 @@ helloMain = do
     _ <- appendChild body exit
     _ <- on exit click $ liftIO $ putMVar exitMVar ()
 
-    -- Force all all the lazy evaluation to be executed
+    -- Force all all the lazy JSaddle evaluation to be executed
     syncPoint
 
     -- In GHC compiled version the WebSocket connection will end when this
