@@ -1,0 +1,3 @@
+:set -fno-break-on-exception
+:def! reload (const $ return "::reload\nLanguage.Javascript.JSaddle.Warp.debug 3708 HelloMain.helloMain")
+
