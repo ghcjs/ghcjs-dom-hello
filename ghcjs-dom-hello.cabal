@@ -1,5 +1,5 @@
 name: ghcjs-dom-hello
-version: 5.0.0.0
+version: 6.0.0.0
 cabal-version: 1.24
 build-type: Simple
 license: MIT
@@ -16,6 +16,7 @@ description:
     Please submit any suggestions and improvements.
 category: Web
 author: Hamish Mackenzie
+data-files: .ghci cabal.project
 
 source-repository head
     type: git
