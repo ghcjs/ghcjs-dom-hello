@@ -40,7 +40,7 @@ library
     build-depends:
         base >=4.2 && <5,
         ghcjs-dom >=0.9 && <0.10,
-        mtl >=2.1 && <2.3
+        mtl >=2.1 && <2.4
     if !impl(ghcjs)
         build-depends:
             jsaddle >=0.9.2 && <0.10,
@@ -60,7 +60,7 @@ executable ghcjs-dom-hello
     ghc-options: -threaded -Wall -ferror-spans
 
     -- Choose suitable runner
-    if !impl(ghcjs)
+    if !impl(ghcjs) && !arch(javascript)
       if os(osx) || os(ios)
         build-depends:
           jsaddle-wkwebview >=0.9 && <0.10
@@ -73,13 +73,13 @@ executable ghcjs-dom-hello
             jsaddle-webkitgtk >=0.9 && <0.10
 
 executable ghcjs-dom-hello-warp
-    if !flag(warp) || impl(ghcjs) || os(ios)
+    if !flag(warp) || impl(ghcjs) || arch(javascript) || os(ios)
         buildable: False
     main-is: Warp.hs
     build-depends:
         base,
         ghcjs-dom >=0.9 && <0.10,
-        mtl >=2.1 && <2.3,
+        mtl >=2.1 && <2.4,
         ghcjs-dom-hello,
         jsaddle-warp >=0.9 && <0.10,
         mtl
@@ -88,7 +88,7 @@ executable ghcjs-dom-hello-warp
     ghc-options: -threaded -Wall -ferror-spans
 
 executable ghcjs-dom-hello-webkitgtk
-    if !flag(webkitgtk) || impl(ghcjs) || os(ios)
+    if !flag(webkitgtk) || impl(ghcjs) || arch(javascript) || os(ios) || os(osx)
         buildable: False
     main-is: WebKitGTK.hs
     build-depends:
@@ -106,7 +106,7 @@ executable ghcjs-dom-hello-webkitgtk
     ghc-options: -threaded -Wall -ferror-spans
 
 executable ghcjs-dom-hello-wkwebview
-    if !os(osx) || impl(ghcjs)
+    if !os(osx) || impl(ghcjs) || arch(javascript)
         buildable: False
     main-is: WKWebView.hs
     build-depends:
