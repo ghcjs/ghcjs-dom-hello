@@ -71,8 +71,6 @@ executable ghcjs-dom-hello
         else
           build-depends:
             jsaddle-webkitgtk >=0.9 && <0.10
-    if arch(javascript) && impl(ghc >= 9.10.1)
-      ghc-options: -ddisable-js-c-sources
 
 executable ghcjs-dom-hello-warp
     if !flag(warp) || impl(ghcjs) || arch(javascript) || os(ios)
