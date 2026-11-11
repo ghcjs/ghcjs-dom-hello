@@ -39,7 +39,7 @@ library
         HelloMain
     build-depends:
         base >=4.2 && <5,
-        ghcjs-dom >=0.9 && <0.10,
+        ghcjs-dom >=0.10 && <0.11,
         mtl >=2.1 && <2.4
     if !impl(ghcjs) && !arch(javascript)
         build-depends:
@@ -78,7 +78,7 @@ executable ghcjs-dom-hello-warp
     main-is: Warp.hs
     build-depends:
         base,
-        ghcjs-dom >=0.9 && <0.10,
+        ghcjs-dom >=0.10 && <0.11,
         mtl >=2.1 && <2.4,
         ghcjs-dom-hello,
         jsaddle-warp >=0.9 && <0.10,
